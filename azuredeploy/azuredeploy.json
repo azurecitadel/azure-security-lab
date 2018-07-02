@@ -1,0 +1,255 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "adminUsername": {
+            "type": "string",
+            "defaultValue": "labuser",
+            "metadata": {
+                "description": ""
+            }
+        },
+        "adminPassword": {
+            "type": "securestring",
+            "defaultValue": "M1crosoft123",
+            "metadata": {
+                "description": ""
+            }
+        }
+    },
+    "variables": {
+        "storageAccountPrefix": "contosoiaas",
+        "storageAccountName": "[toLower(concat(variables('storageAccountPrefix'), uniqueString(subscription().subscriptionId)))]",
+        "publicIps": [
+            "vm1-pip",
+            "vm2-pip",
+            "vm3-pip",
+            "vm4-pip"
+        ],
+        "vmNames": [
+            "vm1",
+            "vm2",
+            "vm3",
+            "vm4"
+        ],
+        "vnetName": "contosoVnet1",
+        "subnetName": "contosoSubnet1",
+        "vmExtensionName": "dscExtension",
+        "configurationFunction": "ContosoWebsite.ps1\\ContosoWebsite",
+        "modulesURL": "https://raw.githubusercontent.com/Araffe/ARM-Templates/master/infra-security-lab/ContosoWebsite.ps1.zip"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Storage/storageAccounts",
+            "name": "[variables('storageAccountName')]",
+            "sku": {
+                "name": "Standard_LRS",
+            },
+            "kind": "StorageV2",
+            "apiVersion": "2017-10-01",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "displayName": "InfraSec Storage Account"
+            },
+            "properties": {
+                "accountType": "Standard_LRS"
+            }
+        },
+        {
+            "apiVersion": "2017-10-01",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "name": "[variables('publicIps')[copyIndex()]]",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "displayName": "PublicIPAddress"
+            },
+            "properties": {
+                "publicIPAllocationMethod": "Dynamic"
+            },
+            "copy": {
+                "count": 4,
+                "name": "pipLoop"
+            }
+        },
+        {
+            "apiVersion": "2017-10-01",
+            "type": "Microsoft.Network/virtualNetworks",
+            "name": "[variables('vnetName')]",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "displayName": "[variables('vnetName')]"
+            },
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "10.0.0.0/16"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[variables('subnetName')]",
+                        "properties": {
+                            "addressPrefix": "10.0.0.0/24"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "apiVersion": "2017-10-01",
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[concat(variables('vmNames')[copyIndex()], '-nic')]",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses/', variables('publicIps')[copyIndex()])]",
+                "[resourceId('Microsoft.Network/virtualNetworks/', variables('vnetName'))]"
+            ],
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIps')[copyIndex()])]"
+                            },
+                            "subnet": {
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets',variables('vnetName'),variables('subnetName'))]"
+                            }
+                        }
+                    }
+                ]
+            },
+            "copy": {
+                "count": 4,
+                "name": "nicLoop"
+            }
+        },
+        {
+            "apiVersion": "2017-12-01",
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[variables('vmNames')[copyIndex()]]",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[concat(resourceId('Microsoft.Network/networkInterfaces/', variables('vmNames')[copyIndex()]), '-nic')]"
+            ],
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Standard_A2"
+                },
+                "osProfile": {
+                    "computerName": "[variables('vmNames')[copyIndex()]]",
+                    "adminUsername": "[parameters('adminUsername')]",
+                    "adminPassword": "[parameters('adminPassword')]"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftWindowsServer",
+                        "offer": "WindowsServer",
+                        "sku": "2016-Datacenter",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "createOption": "FromImage"
+                    }
+                    
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[concat(resourceId('Microsoft.Network/networkInterfaces/',variables('vmNames')[copyIndex()]), '-nic')]"
+                        }
+                    ]
+                },
+                "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                        "enabled": "false"
+                    }
+                }
+            },
+            "copy": {
+                "count": 2,
+                "name": "windowsVmLoop"
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "name": "[concat(variables('vmNames')[copyIndex()],'/', variables('vmExtensionName'))]",
+            "apiVersion": "2015-05-01-preview",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+              "[concat('Microsoft.Compute/virtualMachines/', variables('vmNames')[copyIndex()])]"
+            ],
+            "properties": {
+              "publisher": "Microsoft.Powershell",
+              "type": "DSC",
+              "typeHandlerVersion": "2.19",
+              "autoUpgradeMinorVersion": true,
+              "settings": {
+                "ModulesUrl": "[variables('modulesUrl')]",
+                "ConfigurationFunction": "[variables('configurationFunction')]",
+                "Properties": {
+                  "MachineName": "[variables('vmNames')[copyIndex()]]"
+                }
+              },
+              "protectedSettings": null
+            },
+            "copy": {
+                "count": 2,
+                "name": "dscExtensionLoop"
+            }
+          },
+        {
+            "apiVersion": "2017-12-01",
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[variables('vmNames')[copyIndex(2)]]",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[concat(resourceId('Microsoft.Network/networkInterfaces/', variables('vmNames')[copyIndex(2)]), '-nic')]"
+            ],
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Standard_A2"
+                },
+                "osProfile": {
+                    "computerName": "[variables('vmNames')[copyIndex(2)]]",
+                    "adminUsername": "[parameters('adminUsername')]",
+                    "adminPassword": "[parameters('adminPassword')]"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "Canonical",
+                        "offer": "UbuntuServer",
+                        "sku": "16.04.0-LTS",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "createOption": "FromImage"
+                    }
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[concat(resourceId('Microsoft.Network/networkInterfaces/',variables('vmNames')[copyIndex(2)]), '-nic')]"
+                        }
+                    ]
+                },
+                "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                        "enabled": "false"
+                    }
+                }
+            },
+            "copy": {
+                "count": 2,
+                "name": "linuxVmLoop"
+            }
+        }
+    ],
+    "outputs": {
+        "storageAccountName": {
+            "type": "string",
+            "value": "[variables('storageAccountName')]"
+        }
+    }
+}

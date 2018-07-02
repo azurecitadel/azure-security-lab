@@ -1,0 +1,102 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {},
+    "variables": {
+        "appServicePlanName": "contoso-appservice",
+        "webAppPrefix": "contosoapp",
+        "sqlServerPrefix": "contososql",
+        "webAppName": "[concat(variables('webAppPrefix'), uniqueString(subscription().subscriptionId))]",
+        "sqlServerName": "[concat(variables('sqlServerPrefix'), uniqueString(subscription().subscriptionId))]",
+        "sourceRepo": "https://github.com/Araffe/Contoso-Web.git",
+        "sourceBranch": "master",
+        "sqlAdministratorLogin": "labuser",
+        "sqlAdministratorLoginPassword": "M1crosoft123",
+        "databaseName": "contosoSQL",
+        "databaseEdition": "basic",
+        "databaseCollation": "SQL_Latin1_General_CP1_CI_AS"
+    },
+    "resources": [
+        {
+            "apiVersion": "2017-08-01",
+            "type": "Microsoft.Web/serverfarms",
+            "kind": "app",
+            "name": "[variables('appServicePlanName')]",
+            "location": "[resourceGroup().location]",
+            "comments": "",
+            "tags": {
+                "displayName": "AppServicePlan"
+            },
+            "properties": {},
+            "dependsOn": [],
+            "sku": {
+                "name": "S1"
+            }
+        },
+        {
+            "apiVersion": "2016-08-01",
+            "type": "Microsoft.Web/sites",
+            "kind": "app",
+            "name": "[variables('webAppName')]",
+            "location": "[resourceGroup().location]",
+            "comments": "",
+            "tags": {
+                "displayName": "WebApp"
+            },
+            "properties": {
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]"
+            ],
+            "resources": [
+                {
+                    "apiVersion": "2015-08-01",
+                    "name": "web",
+                    "type": "sourcecontrols",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Web/Sites', variables('webAppName'))]"
+                    ],
+                    "properties": {
+                        "RepoUrl": "[variables('sourceRepo')]",
+                        "branch": "[variables('sourceBranch')]",
+                        "IsManualIntegration": true
+                    }
+                }
+            ]
+        },
+        {
+            "name": "[variables('sqlServerName')]",
+            "type": "Microsoft.Sql/servers",
+            "apiVersion": "2014-04-01-preview",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "displayName": "SqlServer"
+            },
+            "properties": {
+                "administratorLogin": "[variables('sqlAdministratorLogin')]",
+                "administratorLoginPassword": "[variables('sqlAdministratorLoginPassword')]",
+                "version": "12.0"
+            },
+            "resources": [
+                {
+                    "name": "[variables('databaseName')]",
+                    "type": "databases",
+                    "apiVersion": "2015-01-01",
+                    "location": "[resourceGroup().location]",
+                    "tags": {
+                        "displayName": "Database"
+                    },
+                    "properties": {
+                        "edition": "[variables('databaseEdition')]",
+                        "collation": "[variables('databaseCollation')]"
+                    },
+                    "dependsOn": [
+                        "[variables('sqlServerName')]"
+                    ]
+                }
+            ]
+        }
+    ],
+    "outputs": {}
+}
