@@ -82,7 +82,7 @@ The Contoso security team have requested your help to secure the infrastructure 
 
 The environment deployed by Contoso is shown in figure 1.
 
-![Main Lab Image](https://github.com/Araffe/azure-security-lab/blob/master/Images/Overview.jpg "Security Lab Environment")
+![Main Lab Image](https://github.com/azurecitadel/azure-security-lab/blob/master/Images/Overview.jpg "Security Lab Environment")
 
 **Figure 1:** Contoso Environment
 
@@ -109,7 +109,7 @@ Perform the following steps to initialise the lab environment:
 
 **2)** Fill in the details, complete the sign-up process and create an “admin” user, as shown in figure 2. **Please ensure the user is "admin" as shown below.**
 
-![Office 365 Signup](https://github.com/araffe/azure-security-lab/blob/master/Images/O365-Signup.jpg "Office 365 Signup")
+![Office 365 Signup](https://github.com/azurecitadel/azure-security-lab/blob/master/Images/O365-Signup.jpg "Office 365 Signup")
 
 **Figure 2:** Office 365 Signup
 
@@ -121,14 +121,14 @@ Perform the following steps to initialise the lab environment:
 
 **6)** Make sure the Cloud Shell window is set to “Powershell” (not “Bash”) as shown in Figure 3.
 
-![Cloud Shell](https://github.com/araffe/azure-security-lab/blob/master/Images/cloudshell.jpg "Cloud Shell")
+![Cloud Shell](https://github.com/azurecitadel/azure-security-lab/blob/master/Images/cloudshell.jpg "Cloud Shell")
 
 **Figure 3:** Azure Cloud Shell - Powershell
 
 **7)** To create the users, copy the code below and paste into the Powershell Cloud Shell window:
 
 <pre lang="...">
-$script = Invoke-WebRequest https://raw.githubusercontent.com/Araffe/azure-security-lab/master/CreateUsers.ps1 -UseBasicParsing
+$script = Invoke-WebRequest https://raw.githubusercontent.com/azurecitadel/azure-security-lab/master/CreateUsers.ps1 -UseBasicParsing
 
 Invoke-Expression $($script.Content)
  </pre>
@@ -136,7 +136,7 @@ Invoke-Expression $($script.Content)
 **8)** To deploy the lab infrastructure, enter the following commands into the Powershell Cloud Shell window:
 
 <pre lang="...">
-$script = Invoke-WebRequest https://raw.githubusercontent.com/Araffe/azure-security-lab/master/CreateLab.ps1 -UseBasicParsing
+$script = Invoke-WebRequest https://raw.githubusercontent.com/azurecitadel/azure-security-lab/master/CreateLab.ps1 -UseBasicParsing
 
 Invoke-Expression $($script.Content)
  </pre>
@@ -147,7 +147,7 @@ Finally, assign directory roles and licenses to the users that have been created
 
 **9)** In the Azure portal, navigate to Azure Active Directory > Users > All Users > Isaiah Langer > Directory Role > Global Administrator > Save.
 
-![Assign Role](https://github.com/araffe/azure-security-lab/blob/master/Images/assignroles.jpg "Assign Role")
+![Assign Role](https://github.com/azurecitadel/azure-security-lab/blob/master/Images/assignroles.jpg "Assign Role")
 
 **Figure 4:** Assign Global Admin Role
 
@@ -165,13 +165,13 @@ In this lab, we’ll use Azure Security Center (ASC) to view recommendations and
 
 **2)** It may take a few minutes before Security Center is ready – resources will show as “refreshing” during this time. (Figure 5).
 
-![ASC Initial Screen](https://github.com/araffe/azure-security-lab/blob/master/Images/ascoverview.jpg "ASC Initial Screen")
+![ASC Initial Screen](https://github.com/azurecitadel/azure-security-lab/blob/master/Images/ascoverview.jpg "ASC Initial Screen")
 
 **Figure 5:** Initial Security Center Screen
 
 **3)** At the top of the Security Center main pane, you will see a message stating that “Your security experience may be limited”. Click this message and you will be taken to a new pane entitled “Enable advanced security for subscriptions”. Click on your subscription and you will be taken to a new screen, as shown in Figure 6.
 
-![ASC Pricing](https://github.com/araffe/azure-security-lab/blob/master/Images/ascpricing.jpg "ASC Pricing")
+![ASC Pricing](https://github.com/azurecitadel/azure-security-lab/blob/master/Images/ascpricing.jpg "ASC Pricing")
 
 **Figure 6:** Azure Security Center Pricing
 
@@ -187,13 +187,13 @@ In this section of the lab, we’ll take a look around Azure Security Center and
 
 **2)** The overview section of the Security Center shows an 'at-a-glance' view of any security recommendations, alerts and prevention items relating to compute, storage, networking and applications, as shown in Figure 7.
 
-![ASC Main](https://github.com/araffe/azure-security-lab/blob/master/Images/ascmain.jpg "ASC Main")
+![ASC Main](https://github.com/azurecitadel/azure-security-lab/blob/master/Images/ascmain.jpg "ASC Main")
 
 **Figure 7:** Azure Security Center Main Screen
 
 **3)** Click on 'Recommendations' in the Security Center menu. You will see a list of recommendations relating to various areas of the environment - for example, the need to add Network Security Groups on subnets and VMs, or the recommendation to apply disk encryption to VMs.
 
-![ASC Recommendations](https://github.com/araffe/azure-security-lab/blob/master/Images/ascrecommendations.jpg "ASC Recommendations")
+![ASC Recommendations](https://github.com/azurecitadel/azure-security-lab/blob/master/Images/ascrecommendations.jpg "ASC Recommendations")
 
 **Figure 8:** Azure Security Center Recommendations
 
@@ -203,7 +203,7 @@ In this section of the lab, we’ll take a look around Azure Security Center and
 
 **6)** One of the common warnings is related to endpoint protection on virtual machines. Click on the 'Compute' item in the menu and then click on the warning for ‘Endpoint Protection Issues’. This will take you to a screen showing how many VMs are not protected.
 
-![ASC Endpoint Protection](https://github.com/araffe/azure-security-lab/blob/master/Images/ascendpoint.jpg "ASC Endpoint Protection")
+![ASC Endpoint Protection](https://github.com/azurecitadel/azure-security-lab/blob/master/Images/ascendpoint.jpg "ASC Endpoint Protection")
 
 **Figure 9:** Azure Security Center Endpoint Protection
 
@@ -215,7 +215,7 @@ In this section of the lab, we’ll take a look around Azure Security Center and
 
 **10)** Return to the main ASC screen and then click on Networking. From here, you’ll be able to see that your VMs (VM1 – 4) are listed as ‘Internet Facing Endpoints’ but have no protection from either Network Security Groups or Next Generation Firewalls (Figure 10). You’ll add Network Security Groups to the environment later.
 
-![ASC Networking](https://github.com/araffe/azure-security-lab/blob/master/Images/ascnetworking.jpg "ASC Networking")
+![ASC Networking](https://github.com/azurecitadel/azure-security-lab/blob/master/Images/ascnetworking.jpg "ASC Networking")
 
 **Figure 10:** Azure Security Center Networking Recommendations
 
@@ -298,7 +298,7 @@ get-azurestorageblob -context $storageContext -Container $container
 
 You should see the files listed out, as shown in Figure 11.
 
-![Blob List](https://github.com/araffe/azure-security-lab/blob/master/Images/bloblist.jpg "Blob List")
+![Blob List](https://github.com/azurecitadel/azure-security-lab/blob/master/Images/bloblist.jpg "Blob List")
 
 **Figure 11:** Storage Account Blob List
 
@@ -332,7 +332,7 @@ In this section, we are going to implement Network Security Groups (NSGs) to all
 
 **4)** You should see a list of default rules that have been applied to the NSG, as shown in Figure 12. These rules allow access from other virtual networks, access to the Internet, as well as denying all other traffic.
 
-![Default NSG Rules](https://github.com/araffe/azure-security-lab/blob/master/Images/defaultnsgrules.jpg "Default NSG Rules")
+![Default NSG Rules](https://github.com/azurecitadel/azure-security-lab/blob/master/Images/defaultnsgrules.jpg "Default NSG Rules")
 
 **Figure 12:** Default NSG Rules
 
@@ -346,7 +346,7 @@ In this section, we are going to implement Network Security Groups (NSGs) to all
 
 Leave all other values at their defaults. Your rule should look the same as shown in Figure 13. Click OK.
 
-![Contoso NSG Rule](https://github.com/araffe/azure-security-lab/blob/master/Images/httprule.jpg "Contoso NSG Rule")
+![Contoso NSG Rule](https://github.com/azurecitadel/azure-security-lab/blob/master/Images/httprule.jpg "Contoso NSG Rule")
 
 **Figure 13:** Contoso-NSG Rule
 
@@ -376,7 +376,7 @@ We could simply add a rule to our NSG that allows these ports, however that woul
 
 **4)** You should see all four VMs listed here. Select them all and then click on ‘Enable JIT on 4 VMs’, as shown in Figure 14.
 
-![Apply JIT](https://github.com/araffe/azure-security-lab/blob/master/Images/applyjit.jpg "Apply JIT")
+![Apply JIT](https://github.com/azurecitadel/azure-security-lab/blob/master/Images/applyjit.jpg "Apply JIT")
 
 **Figure 14:** Applying Just in Time Access
 
@@ -392,7 +392,7 @@ Now that JIT access is configured, let’s say we want to gain access to one of 
 
 **3)** As this is a Linux VM, we only need SSH access, so toggle port 22 to ‘on’. Leave all other settings at their default value. Click on ‘Open ports’. This is shown in Figure 15.
 
-![Request JIT](https://github.com/araffe/azure-security-lab/blob/master/Images/applyjit.jpg "Request JIT")
+![Request JIT](https://github.com/azurecitadel/azure-security-lab/blob/master/Images/applyjit.jpg "Request JIT")
 
 **Figure 15:** Requesting VM Access
 
@@ -400,7 +400,7 @@ Now that JIT access is configured, let’s say we want to gain access to one of 
 
 **6)** Return to your ‘Contoso-IaaS’ resource group and click on the NSG you created earlier (Contoso-NSG). You should see a list of rules for the various ports – at the top, you should see an ‘allow’ rule for port 22, using your IP address as shown in Figure 16 (source IP address removed from image).
 
-![JIT Rules](https://github.com/araffe/azure-security-lab/blob/master/Images/jitrules.jpg "JIT Rules")
+![JIT Rules](https://github.com/azurecitadel/azure-security-lab/blob/master/Images/jitrules.jpg "JIT Rules")
 
 **Figure 16:** Just in Time Access - NSG Rules
 
@@ -453,7 +453,7 @@ In this lab, we’ll lock the SQL database down to allow only certain IP address
 
 **3)** You’ll see that no firewall rules are currently configured, however you’ll also see a suggested ‘client IP’ address based on your IP, as shown in Figure 17.
 
-![SQL Firewall](https://github.com/araffe/azure-security-lab/blob/master/Images/sqlfirewall.jpg "SQL Firewall")
+![SQL Firewall](https://github.com/azurecitadel/azure-security-lab/blob/master/Images/sqlfirewall.jpg "SQL Firewall")
 
 **Figure 17:** Enabling SQL Database Firewall
 
@@ -493,7 +493,7 @@ In this exercise we will enable PIM for the tenant and then change a user (Isaia
 
 **2)** In the left navigation, click All Services >, type priv, then select Azure AD Privileged Identity Management, as shown in Figure 18.
 
-![Selecting PIM](https://github.com/araffe/azure-security-lab/blob/master/Images/selectpim.jpg "Selecting PIM")
+![Selecting PIM](https://github.com/azurecitadel/azure-security-lab/blob/master/Images/selectpim.jpg "Selecting PIM")
 
 **Figure 18:** Selecting Privileged Identity Management
 
@@ -506,7 +506,7 @@ In this exercise we will enable PIM for the tenant and then change a user (Isaia
 **6)** On the Azure AD Directory Roles – Sign up PIM for Azure AD Directory Roles blade, click Sign Up, then click Yes, as shown in Figure 19.
 
 
-![PIM Signup](https://github.com/araffe/azure-security-lab/blob/master/Images/pimsignup.jpg "PIM Signup")
+![PIM Signup](https://github.com/azurecitadel/azure-security-lab/blob/master/Images/pimsignup.jpg "PIM Signup")
 
 **Figure 19:** Privileged Identity Management - Signing Up
 
@@ -520,7 +520,7 @@ In this exercise we will enable PIM for the tenant and then change a user (Isaia
 
 **11)** On the right, click Make Eligible, as shown in Figure 20.
 
-![PIM Eligibility](https://github.com/araffe/azure-security-lab/blob/master/Images/pimeligibility.jpg "PIM Eligibility")
+![PIM Eligibility](https://github.com/azurecitadel/azure-security-lab/blob/master/Images/pimeligibility.jpg "PIM Eligibility")
 
 **Figure 20:** PIM User Eligibility
 
@@ -532,7 +532,7 @@ In this exercise we will enable PIM for the tenant and then change a user (Isaia
 
 **15)** Set email Notifications to Enable, as shown in Figure 21.
 
-![PIM Role](https://github.com/araffe/azure-security-lab/blob/master/Images/pimrole.jpg "PIM Role")
+![PIM Role](https://github.com/azurecitadel/azure-security-lab/blob/master/Images/pimrole.jpg "PIM Role")
 
 **Figure 21:** PIM - Role Settings
 
@@ -548,7 +548,7 @@ In this exercise we will enable PIM for the tenant and then change a user (Isaia
 
 **3)** Open the email from Microsoft Azure AD Notification Service for Activating Global Administrator access, as shown in Figure 22.
 
-![PIM Notification](https://github.com/araffe/azure-security-lab/blob/master/Images/pimnotify.jpg "PIM Notification")
+![PIM Notification](https://github.com/azurecitadel/azure-security-lab/blob/master/Images/pimnotify.jpg "PIM Notification")
 
 **Figure 22:** PIM Notification Email
 
@@ -604,7 +604,7 @@ In this exercise we will create new Azure resources and assign direct (permanent
 
 **3)** Add the user ‘Alex Wilber’ as a Contributor Add > choose Contributor > Alex Wilber.
 
-![Assigning Users](https://github.com/araffe/azure-security-lab/blob/master/Images/assignusers.jpg "Assigning Users")
+![Assigning Users](https://github.com/azurecitadel/azure-security-lab/blob/master/Images/assignusers.jpg "Assigning Users")
 
 **Figure 23:** Assigning Users / Roles to Resources
 
@@ -630,13 +630,13 @@ New permissions required for Alex Wilber:
 
 **2)** By default, the Contributor role is set to not require MFA so we need to modify this. In MANAGE click Role Settings > Contributor > Edit > tick Require Multi-Factor Authentication on activation > Update. Notice once the role has been updated you can see it has been modified, when and by who. This is shown in Figure 24.
 
-![Role Settings](https://github.com/araffe/azure-security-lab/blob/master/Images/rolesettings.jpg "Role Settings")
+![Role Settings](https://github.com/azurecitadel/azure-security-lab/blob/master/Images/rolesettings.jpg "Role Settings")
 
 **Figure 24:** Role Settings
 
 **3)** In the Admin view click Contributor, you should see Alex Wilber with direct assignment. Click Alex > Change Settings. As Alex needs Just in Time access for 1 month, choose assignment type Just in Time > assignment start date Current day > assignment end date Current day + 1 month.
 
-![JIT User Settings](https://github.com/araffe/azure-security-lab/blob/master/Images/jitusersettings.jpg "JIT User Settings")
+![JIT User Settings](https://github.com/azurecitadel/azure-security-lab/blob/master/Images/jitusersettings.jpg "JIT User Settings")
 
 **Figure 25:** Just in Time User Settings
 
@@ -658,7 +658,7 @@ Azure resource policies are used to place restrictions on what actions can be ta
 
 **3)** Scroll down to the policy entitled 'Allowed Resource Types', click the '...', select 'View Definition' and then click on 'JSON'. This shows you the JSON policy document - this simple example takes a list of resource types and prevents the ability to create them.
 
-![Azure Resource Policy Example](https://github.com/araffe/azure-security-lab/blob/master/Images/armpolicies1.jpg "Azure Resource Policy Example")
+![Azure Resource Policy Example](https://github.com/azurecitadel/azure-security-lab/blob/master/Images/armpolicies1.jpg "Azure Resource Policy Example")
 
 **Figure 26:** Azure Resource Policy Example
 

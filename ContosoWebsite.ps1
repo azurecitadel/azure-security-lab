@@ -7,15 +7,15 @@ Configuration ContosoWebsite
     #Install the IIS Role
     WindowsFeature IIS
     {
-      Ensure = “Present”
-      Name = “Web-Server”
+      Ensure = ï¿½Presentï¿½
+      Name = ï¿½Web-Serverï¿½
     }
 
     #Install ASP.NET 4.5
     WindowsFeature ASP
     {
-      Ensure = “Present”
-      Name = “Web-Asp-Net45”
+      Ensure = ï¿½Presentï¿½
+      Name = ï¿½Web-Asp-Net45ï¿½
     }
 
      WindowsFeature WebServerManagementConsole
@@ -41,7 +41,7 @@ Configuration ContosoWebsite
 			    [system.io.directory]::CreateDirectory("C:\WebApp")
 			    $dest = "C:\WebApp\Site.zip" 
                 Remove-Item -path "C:\inetpub\wwwroot" -Force -Recurse -ErrorAction SilentlyContinue
-			    Invoke-WebRequest "https://raw.githubusercontent.com/Araffe/ARM-Templates/master/infra-security-lab/ContosoWeb.zip" -OutFile $dest
+			    Invoke-WebRequest "https://raw.githubusercontent.com/azurecitadel/ARM-Templates/master/infra-security-lab/ContosoWeb.zip" -OutFile $dest
 			    Add-Type -assembly "system.io.compression.filesystem"
 			    [io.compression.zipfile]::ExtractToDirectory($dest, "C:\inetpub\wwwroot")
 		    }

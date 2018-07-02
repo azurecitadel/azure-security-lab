@@ -1,6 +1,6 @@
 $rg = (new-azurermresourcegroup -name Contoso-IaaS -Location westus2).ResourceGroupName
 $rg2 = (new-azurermresourcegroup -name Contoso-PaaS -Location westus2).ResourceGroupName
-$outputs = (new-azurermresourcegroupdeployment -Name infraSecLab -ResourceGroupName $rg -TemplateUri https://raw.githubusercontent.com/Araffe/azure-security-lab/master/azuredeploy/azuredeploy.json).Outputs
+$outputs = (new-azurermresourcegroupdeployment -Name infraSecLab -ResourceGroupName $rg -TemplateUri https://raw.githubusercontent.com/azurecitadel/azure-security-lab/master/azuredeploy/azuredeploy.json).Outputs
 
 $DestStorageAccount = $outputs.storageAccountName.Value
 $SourceStorageAccount = "infraseclab"
@@ -20,5 +20,5 @@ foreach ($Blob in $Blobs)
 }
 
 Write-Output "***** IaaS Lab Ready :-) *****"
-new-azurermresourcegroupdeployment -Name infraSecpaasLab -ResourceGroupName $rg2 -TemplateUri https://raw.githubusercontent.com/Araffe/azure-security-lab/master/azuredeploy/azuredeploy-paas.json
+new-azurermresourcegroupdeployment -Name infraSecpaasLab -ResourceGroupName $rg2 -TemplateUri https://raw.githubusercontent.com/azurecitadel/azure-security-lab/master/azuredeploy/azuredeploy-paas.json
 Write-Output "***** PaaS Lab Ready :-) *****"
