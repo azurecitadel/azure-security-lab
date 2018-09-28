@@ -39,13 +39,13 @@ Configuration ContosoWebsite
             }
 		    SetScript ={
 			    [system.io.directory]::CreateDirectory("C:\WebApp")
-			    $dest = "C:\WebApp\Site.zip" 
+			    $dest = "C:\WebApp\Site.zip"
                 Remove-Item -path "C:\inetpub\wwwroot" -Force -Recurse -ErrorAction SilentlyContinue
-			    Invoke-WebRequest "https://raw.githubusercontent.com/azurecitadel/ARM-Templates/master/infra-security-lab/ContosoWeb.zip" -OutFile $dest
+			    Invoke-WebRequest "https://raw.githubusercontent.com/azurecitadel/azure-security-lab/master/ContosoWeb.zip" -OutFile $dest
 			    Add-Type -assembly "system.io.compression.filesystem"
 			    [io.compression.zipfile]::ExtractToDirectory($dest, "C:\inetpub\wwwroot")
 		    }
 		    DependsOn  = "[WindowsFeature]IIS"
 	    }
   }
-} 
+}

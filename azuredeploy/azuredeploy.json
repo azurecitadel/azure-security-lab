@@ -36,7 +36,7 @@
         "subnetName": "contosoSubnet1",
         "vmExtensionName": "dscExtension",
         "configurationFunction": "ContosoWebsite.ps1\\ContosoWebsite",
-        "modulesURL": "https://raw.githubusercontent.com/azurecitadel/ARM-Templates/master/infra-security-lab/ContosoWebsite.ps1.zip"
+        "modulesURL": "https://raw.githubusercontent.com/azurecitadel/azure-security-lab/master/ContosoWebsite.ps1.zip"
     },
     "resources": [
         {
@@ -152,7 +152,7 @@
                     "osDisk": {
                         "createOption": "FromImage"
                     }
-                    
+
                 },
                 "networkProfile": {
                     "networkInterfaces": [
